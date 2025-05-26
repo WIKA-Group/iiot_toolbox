@@ -1,7 +1,6 @@
 <script setup lang="ts">
 useHead({
-  title: 'Home',
-  titleTemplate: 'WIKA IIoT Toolbox - %s',
+  title: 'WIKA - IIoT Toolbox',
   meta: [
     {
       name: 'description',
@@ -24,7 +23,18 @@ useHead({
       />
       <div class="flex flex-col grow h-full overflow-hidden px-4 py-2 gap-2">
         <Header class="w-full my-2" />
-        <NuxtPage />
+        <div class="flex flex-col w-full gap-2 p-8 items-center justify-center">
+          Seems like you landed here by mistake. This page does not exist or has been moved.
+          <UButton
+            class="w-fit"
+            color="primary"
+            variant="solid"
+            to="/"
+            icon="mdi:home"
+          >
+            Go to Home
+          </UButton>
+        </div>
       </div>
     </div>
   </UApp>

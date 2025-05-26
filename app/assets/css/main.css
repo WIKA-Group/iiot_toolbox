@@ -1,2 +1,79 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
+
+:root {
+
+
+  --ui-color-primary-50: #e0eafb; 
+  --ui-color-primary-100: #c5d8f7;
+  --ui-color-primary-200: #8bb1ee;
+  --ui-color-primary-300: #518ae6;
+  --ui-color-primary-400: #1f65d6;
+  --ui-color-primary-500: #16489a; /** Default WIKA color: https://www.tints.dev/WIKA/16489A **/ 
+  --ui-color-primary-600: #123b7d;
+  --ui-color-primary-700: #0d2c5e;
+  --ui-color-primary-800: #091d3e;
+  --ui-color-primary-900: #040f1f;
+  --ui-color-primary-950: #02060d;
+
+
+
+
+
+  --ui-radius: 0rem;
+
+  --ui-color-white: #ffffff;
+
+  --ui-color-neutral-50: #f0f0f0;
+  --ui-color-neutral-100: #e3e3e3;
+  --ui-color-neutral-200: #c7c7c7;
+  --ui-color-neutral-300: #ababab;
+  --ui-color-neutral-400: #8f8f8f;
+  --ui-color-neutral-500: #707070;
+  --ui-color-neutral-600: #545454;
+  --ui-color-neutral-700: #383838;
+  --ui-color-neutral-800: #1c1c1c;
+  --ui-color-neutral-900: #000000;
+  --ui-color-neutral-950: #000000;
+
+
+  --ui-color-secondary-50: #fff5e5;
+  --ui-color-secondary-100: #ffebcc;
+  --ui-color-secondary-200: #ffd699;
+  --ui-color-secondary-300: #ffc266;
+  --ui-color-secondary-400: #ffad33;
+  --ui-color-secondary-500: #fe9900; /** Default WIKA secondary: https://www.tints.dev/WIKA/FE9900 **/
+  --ui-color-secondary-600: #cc7a00;
+  --ui-color-secondary-700: #995c00;
+  --ui-color-secondary-800: #663d00;
+  --ui-color-secondary-900: #331f00;
+  --ui-color-secondary-950: #190f00;
+}
+
+.dark {
+
+  --ui-color-primary-50: #e6eff9;
+  --ui-color-primary-100: #cde0f3;
+  --ui-color-primary-200: #98bee7;
+  --ui-color-primary-300: #669fdb;
+  --ui-color-primary-400: #3480cf; /** Default light WIKA color: https://www.tints.dev/WIKA/3480CF **/
+  --ui-color-primary-500: #2969ad;
+  --ui-color-primary-600: #21558c;
+  --ui-color-primary-700: #183e67;
+  --ui-color-primary-800: #112a46;
+  --ui-color-primary-900: #081421;
+  --ui-color-primary-950: #040a11;
+
+
+  --ui-color-secondary-50: #fff3e0;
+  --ui-color-secondary-100: #ffe4bd;
+  --ui-color-secondary-200: #ffcc80;
+  --ui-color-secondary-300: #ffb13d;
+  --ui-color-secondary-400: #fe9900; /** (400 for dark mode) Default WIKA orange: https://www.tints.dev/WIKA/FE9900 **/
+  --ui-color-secondary-500: #d68100;
+  --ui-color-secondary-600: #a86500;
+  --ui-color-secondary-700: #804d00;
+  --ui-color-secondary-800: #573400;
+  --ui-color-secondary-900: #291800;
+  --ui-color-secondary-950: #140c00;
+}
