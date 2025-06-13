@@ -2,6 +2,24 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 
+  app: {
+    head: {
+      title: "My Page Title",
+      link: [
+        // https://nuxt.com/deploy/github-pages and https://vite.dev/guide/env-and-mode.html for details.
+        // !!! Make use of compile time environment var NUXT_APP_BASE_URL to work for GitHub Pages deployments as well.
+        // Assumption: favicon files in ~/public as ~/public/favicon.ico, ~/public/favicon-32x32.png etc.:
+        {
+          rel: "icon",
+          type: "image/x-icon",
+          href: (import.meta.env.NUXT_APP_BASE_URL ? import.meta.env.NUXT_APP_BASE_URL : "/") + "favicon.ico"
+        }
+       // ... add probable other icon variants accordingly
+      ],
+    },
+  },
+
+
   modules: [
     '@nuxt/ui',
     '@nuxt/eslint',
