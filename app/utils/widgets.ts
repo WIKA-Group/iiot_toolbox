@@ -12,6 +12,7 @@ export type Category = {
   icon: string
   name: string
   description: string
+  to: `/${string}`
 }
 
 export type Tree = (Category & {
@@ -21,12 +22,13 @@ export type Tree = (Category & {
 type CategoryIndex = typeof categories[number]['name']
 
 export const categories = [
-  /* {
+  {
     icon: 'mdi:hexadecimal',
     name: 'Device parsers',
     description: 'Parsers to decode data from devices and encode data to devices. Build upon WIKA\'s javascript parser library',
+    to: '/parsers',
   },
-  {
+  /* {
     icon: 'mdi:battery-medium',
     name: 'Battery calculation',
     description: 'Widgets for the settings page',
@@ -34,15 +36,15 @@ export const categories = [
 ] as const satisfies Category[]
 
 export const widgets: Widget[] = [
-  /* {
+  {
     id: '1',
     img: '/Netris2.png',
     name: 'Netris2',
     description: 'Decode data from and encode data to Netris2 devices',
     tags: ['netris2', 'LoRa'],
     category: 'Device parsers',
-    to: '/netris2-parser',
-  }, */
+    to: '/parsers/netris2',
+  },
   /* {
     id: '2',
     img: '/Netris2.png',
@@ -63,14 +65,24 @@ export const widgets: Widget[] = [
   }, */
 ]
 
+export function getCategoryFromPath(path: string): Category | null {
+  const pathFragment = path.split('/').filter(Boolean)
+  const categoryName = `/${pathFragment[0]}` // Assuming the first segment is the category
+  const found = categories.find(category => category.to === categoryName) ?? null
+  return found
+}
+
+export function getWidgetFromPath(path: string): Widget | null {
+  const found = widgets.find(widget => widget.to === path) ?? null
+  return found
+}
+
 export function getCategoryFromWidgetOrIndex(
   widget: Widget | CategoryIndex,
 ): Category {
   if (typeof widget === 'string') {
-    // @ts-expect-error - is currently empty
     return categories.find(category => category.name === widget)!
   }
-  // @ts-expect-error - is currently empty
   return categories.find(category => category.name === widget.category)!
 }
 

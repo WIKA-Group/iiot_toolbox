@@ -1,27 +1,24 @@
-import MiniSearch from 'minisearch'
-
-const miniSearch = new MiniSearch({
-  fields: ['name', 'description', 'tags'],
-  storeFields: [
-    'id',
-    'img',
-    'name',
-    'description',
-    'tags',
-    'category',
-    'to',
-  ],
-})
-
-miniSearch.addAll(widgets)
+import { useFuse } from '@vueuse/integrations/useFuse'
 
 export function useFilteredWidgets(filter: MaybeRefOrGetter<string>) {
-  const filteredWidgets = computed(() => {
-    return miniSearch.search(toValue(filter), {
-      prefix: true,
-      fuzzy: 0.2,
-    })
-  })
+  // Configure Fuse.js options
+
+  const { results } = useFuse(filter, widgets, {
+    matchAllWhenSearchEmpty: true,
+    fuseOptions: {
+      keys: ['name', 'description', 'tags'],
+      threshold: 0.2,
+      includeScore: false,
+      includeMatches: false,
+      minMatchCharLength: 1,
+      shouldSort: true,
+    // ...add more options if needed...
+    } })
+
+  // Map results to Widget[] (results is array of { item, ... })
+  const filteredWidgets = computed(() =>
+    results.value.map(r => r.item),
+  )
 
   return {
     filteredWidgets: filteredWidgets as unknown as ComputedRef<Widget[]>,

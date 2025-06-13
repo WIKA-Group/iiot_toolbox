@@ -4,13 +4,10 @@ import type { NavigationMenuItem } from '@nuxt/ui'
 // Build navigation items: each category is a group, widgets are children
 const items = computed<NavigationMenuItem[]>(() =>
   categories.map(category => ({
-    // @ts-expect-error - is currently empty
     label: category.name,
-    // @ts-expect-error - is currently empty
     icon: category.icon,
-    defaultOpen: true,
+    to: category.to,
     children: widgets
-    // @ts-expect-error - is currently empty
       .filter(w => w.category === category.name)
       .map(widget => ({
         label: widget.name,
@@ -18,7 +15,7 @@ const items = computed<NavigationMenuItem[]>(() =>
         to: widget.to,
         // Optionally, you could add a click handler or route here
       })),
-  })),
+  } satisfies NavigationMenuItem)),
 )
 </script>
 
@@ -59,11 +56,10 @@ const items = computed<NavigationMenuItem[]>(() =>
       class="w-full"
       color="primary"
     />
-    <div class="grow truncate overflow-y-auto w-full">
+    <div class="grow truncate overflow-y-auto w-full px-2">
       <UNavigationMenu
         orientation="vertical"
         :items="items"
-        class="data-[orientation=vertical]:w-full"
       />
     </div>
 

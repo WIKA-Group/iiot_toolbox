@@ -14,14 +14,9 @@ const { filteredWidgets } = useFilteredWidgets(search)
 
 const tree = computed(() => treeFromWidgets(filteredWidgets.value))
 
-watchEffect(() => {
-  console.log('Filtered Widgets:', filteredWidgets.value)
-})
-
 watch(open, (newVal, oldVal) => {
-  // when it switches to false
-  if (!newVal && oldVal) {
-    // do something
+  // when it opens empty the search input
+  if (newVal && !oldVal) {
     search.value = ''
   }
 })
@@ -126,11 +121,20 @@ watchEffect(() => {
                   :key="category.name"
                 >
                   <div class="flex items-center gap-2 font-semibold">
-                    <UIcon
+                    <UButton
+                      class="w-full"
+                      :label="category.name"
+                      :to="category.to"
+                      :icon="category.icon"
+                      variant="ghost"
+                      @click.stop="open = false"
+                    />
+                    <!-- <UIcon
                       :name="category.icon"
                       class="text-xl"
                     />
                     <span>{{ category.name }}</span>
+                   -->
                   </div>
                   <ul class="ml-6 mt-1 flex flex-col gap-1">
                     <UButton
@@ -139,6 +143,7 @@ watchEffect(() => {
                       variant="ghost"
                       class="flex text-start items-start gap-2 py-1 px-2  grow"
                       :to="widget.to"
+                      @click.stop="open = false"
                     >
                       <div>
                         <div class="font-medium text-primary">

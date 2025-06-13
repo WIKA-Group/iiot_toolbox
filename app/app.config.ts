@@ -10,5 +10,15 @@ export default defineAppConfig({
         link: ['cursor-pointer'],
       },
     },
+    tabs: {
+      slots: {
+        trigger: ['cursor-pointer'],
+      },
+    },
+    accordion: {
+      slots: {
+        trigger: ['cursor-pointer'],
+      },
+    },
   },
 })

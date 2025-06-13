@@ -1,0 +1,50 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  theme: {
+    extend: {
+      typography: () => ({
+        wika: {
+          css: {
+            '--tw-prose-body': 'var(--ui-text)',
+            '--tw-prose-headings': 'var(--ui-text-highlighted)',
+            '--tw-prose-lead': 'var(--ui-text-toned)',
+            '--tw-prose-links': 'var(--ui-text-highlighted)',
+            '--tw-prose-bold': 'var(--ui-text-highlighted)',
+            '--tw-prose-counters': 'var(--ui-text-muted)',
+            '--tw-prose-bullets': 'var(--ui-text-dimmed)',
+            '--tw-prose-hr': 'var(--ui-border)',
+            '--tw-prose-quotes': 'var(--ui-text-highlighted)',
+            '--tw-prose-quote-borders': 'var(--ui-border-accented)',
+            '--tw-prose-captions': 'var(--ui-text-muted)',
+            '--tw-prose-kbd': 'var(--ui-text-highlighted)',
+            '--tw-prose-kbd-shadows': 'var(--ui-bg-elevated)',
+            '--tw-prose-code': 'var(--ui-text-highlighted)',
+            '--tw-prose-pre-code': 'var(--ui-bg-inverted)',
+            '--tw-prose-pre-bg': 'var(--ui-bg-accented)',
+            '--tw-prose-th-borders': 'var(--ui-border-accented)',
+            '--tw-prose-td-borders': 'var(--ui-border)',
+            // For -invert- use the same as above so Tailwind handles color scheme automatically
+            '--tw-prose-invert-body': 'var(--tw-prose-body)',
+            '--tw-prose-invert-headings': 'var(--tw-prose-headings)',
+            '--tw-prose-invert-lead': 'var(--tw-prose-lead)',
+            '--tw-prose-invert-links': 'var(--tw-prose-links)',
+            '--tw-prose-invert-bold': 'var(--tw-prose-bold)',
+            '--tw-prose-invert-counters': 'var(--tw-prose-counters)',
+            '--tw-prose-invert-bullets': 'var(--tw-prose-bullets)',
+            '--tw-prose-invert-hr': 'var(--tw-prose-hr)',
+            '--tw-prose-invert-quotes': 'var(--tw-prose-quotes)',
+            '--tw-prose-invert-quote-borders': 'var(--tw-prose-quote-borders)',
+            '--tw-prose-invert-captions': 'var(--tw-prose-captions)',
+            '--tw-prose-invert-kbd': 'var(--tw-prose-kbd)',
+            '--tw-prose-invert-kbd-shadows': 'var(--tw-prose-kbd-shadows)',
+            '--tw-prose-invert-code': 'var(--tw-prose-code)',
+            '--tw-prose-invert-pre-code': 'var(--tw-prose-pre-code)',
+            '--tw-prose-invert-pre-bg': 'var(--tw-prose-pre-bg)',
+            '--tw-prose-invert-th-borders': 'var(--tw-prose-th-borders)',
+            '--tw-prose-invert-td-borders': 'var(--tw-prose-td-borders)',
+          },
+        },
+      }),
+    },
+  },
+}
