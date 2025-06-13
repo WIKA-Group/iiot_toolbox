@@ -28,6 +28,13 @@ export default defineNuxtConfig({
     },
   },
 
+  icon: {
+    provider: "iconify",
+    clientBundle: {
+      scan: true,
+    }
+  },
+
   i18n: {
     defaultLocale: 'en',
     locales: [
