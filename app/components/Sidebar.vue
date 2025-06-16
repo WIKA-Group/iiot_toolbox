@@ -20,7 +20,7 @@ const items = computed<NavigationMenuItem[]>(() =>
 </script>
 
 <template>
-  <div class="py-2 flex flex-col h-full gap-2">
+  <div class="flex flex-col h-full gap-2">
     <div class="w-full flex flex-col gap-2 justify-center items-center px-2">
       <NuxtLink
         to="https://www.wika.com/"

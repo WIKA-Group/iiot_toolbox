@@ -55,11 +55,14 @@ const { locale, setLocale } = useI18n()
 watchEffect(() => {
   setLocale(locale.value)
 })
+
+const slideOverOpen = ref(false)
 </script>
 
 <template>
   <div class="flex items-center gap-2">
     <USlideover
+      v-model:open="slideOverOpen"
       side="left"
     >
       <UButton
@@ -68,11 +71,32 @@ watchEffect(() => {
         color="primary"
         variant="soft"
         size="xl"
+        @click="slideOverOpen = true"
       />
       <template #content>
-        <Sidebar
-          class="h-full w-full"
-        />
+        <div class="flex flex-col h-full gap-2 py-2">
+          <div class="flex px-2">
+            <UButton
+              icon="mdi:close"
+              color="primary"
+              variant="soft"
+              size="xl"
+              @click="slideOverOpen = false"
+            />
+          </div>
+          <Sidebar
+            class="h-full w-full"
+          >
+            <div class="w-full flex">
+              <UButton
+                trailing-icon="mdi:arrow-left"
+                color="primary"
+                variant="soft"
+                size="xl"
+              />
+            </div>
+          </Sidebar>
+        </div>
       </template>
     </USlideover>
     <UButton

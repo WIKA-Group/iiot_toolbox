@@ -57,10 +57,10 @@ const breadcrumbs = computed<BreadcrumbItem[] | null>(() => {
       />
       <USeparator
         orientation="vertical"
-        class="h-full"
+        class="h-full hidden md:block"
         color="primary"
       />
-      <div class="flex flex-col grow h-full overflow-hidden px-4 py-2 gap-2 min-w-0">
+      <div class="flex flex-col grow h-full overflow-hidden px-2 py-1 gap-2 min-w-0 md:px-4 md:py-2">
         <Header class="w-full my-2" />
         <div
           v-if="breadcrumbs"
