@@ -18,6 +18,5 @@ console.log(`Latest tag used: ${latestTag}`, `Penultimate tag used: ${penultimat
 export default {
   from: penultimateTag,
   to: latestTag,
-  output: false,
   noAuthors: true,
 } satisfies Partial<ChangelogConfig>

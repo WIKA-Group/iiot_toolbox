@@ -9,6 +9,7 @@
   },
   "scripts": {
     "build": "nuxt build",
+    "changelog": "pnpm dlx jiti ./scripts/changelog.ts",
     "dev": "nuxt dev",
     "dev:host": "nuxt dev --host",
     "dev:tunnel": "nuxt dev --host --tunnel",
@@ -31,6 +32,7 @@
     "@w2a-iiot/parsers": "^3.2.1",
     "@w2a-iiot/raw-javascript-parsers": "^3.2.1",
     "better-sqlite3": "^11.10.0",
+    "jiti": "^2.4.2",
     "nuxt": "^3.17.1",
     "pinia": "^3.0.2",
     "typescript": "^5.6.3",
