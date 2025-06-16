@@ -198,7 +198,7 @@ const slideOverOpen = ref(false)
     /> -->
 
     <UButton
-      class="hidden xs:flex"
+      class="hidden sm:flex"
       trailing-icon="mdi:github"
       color="primary"
       variant="soft"
@@ -208,7 +208,7 @@ const slideOverOpen = ref(false)
       label="Github"
     />
     <UButton
-      class="xs:hidden"
+      class="flex sm:hidden"
       trailing-icon="mdi:github"
       color="primary"
       variant="soft"
