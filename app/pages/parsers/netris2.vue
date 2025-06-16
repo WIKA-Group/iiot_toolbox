@@ -9,7 +9,7 @@ const { widget } = useWidget()
 const accordionItem = {
   label: 'Parser configuration',
   icon: 'mdi:settings',
-  description: 'Configure the Netris2 parser for your device.',
+  description: 'Configure the NETRIS2 parser for your device.',
 } as const satisfies AccordionItem
 
 const roundingDecimals = useRouteQuery('roundingDecimals', 4, { transform: Number })
