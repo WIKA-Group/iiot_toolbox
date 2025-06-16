@@ -7,16 +7,25 @@ const items = computed<NavigationMenuItem[]>(() =>
     label: category.name,
     icon: category.icon,
     to: category.to,
+    onSelect: () => {
+      emit('linkOpened', category.to)
+    },
     children: widgets
       .filter(w => w.category === category.name)
       .map(widget => ({
         label: widget.name,
         description: widget.description,
         to: widget.to,
+        onSelect: () => emit('linkOpened', widget.to),
+
         // Optionally, you could add a click handler or route here
-      })),
+      } satisfies NavigationMenuItem)),
   } satisfies NavigationMenuItem)),
 )
+
+const emit = defineEmits<{
+  linkOpened: [to: string] // named tuple syntax
+}>()
 </script>
 
 <template>

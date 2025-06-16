@@ -86,6 +86,7 @@ const slideOverOpen = ref(false)
           </div>
           <Sidebar
             class="h-full w-full"
+            @link-opened="slideOverOpen = false"
           >
             <div class="w-full flex">
               <UButton
