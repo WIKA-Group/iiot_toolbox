@@ -120,6 +120,7 @@ const slideOverOpen = ref(false)
           {{ $t("search") }}
         </span>
         <UKbd
+          class="hidden sm:flex"
           value="s"
           variant="outline"
         />
@@ -197,6 +198,7 @@ const slideOverOpen = ref(false)
     /> -->
 
     <UButton
+      class="hidden xs:flex"
       trailing-icon="mdi:github"
       color="primary"
       variant="soft"
@@ -204,6 +206,15 @@ const slideOverOpen = ref(false)
       to="https://github.com/WIKA-Group/iiot_toolbox"
       target="_blank"
       label="Github"
+    />
+    <UButton
+      class="xs:hidden"
+      trailing-icon="mdi:github"
+      color="primary"
+      variant="soft"
+      size="xl"
+      to="https://github.com/WIKA-Group/iiot_toolbox"
+      target="_blank"
     />
     <UButton
       :icon="isDark ? 'mdi:weather-sunny' : 'mdi:weather-night'"
