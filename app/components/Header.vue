@@ -126,7 +126,7 @@ const slideOverOpen = ref(false)
         />
       </UButton>
       <template #content>
-        <div class="w-full flex flex-col p-4 max-h-96 min-w-[28rem] gap-2">
+        <div class="w-full flex flex-col p-4 max-h-96 gap-2">
           <UInput
             v-model="search"
             icon="mdi:magnify"
