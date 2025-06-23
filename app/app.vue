@@ -47,6 +47,10 @@ const breadcrumbs = computed<BreadcrumbItem[] | null>(() => {
   }
   return items
 })
+
+// force locale to be set to 'en' for the app
+const { setLocale } = useI18n()
+await setLocale('en')
 </script>
 
 <template>

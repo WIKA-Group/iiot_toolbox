@@ -8,6 +8,9 @@ useHead({
     },
   ],
 })
+
+const { setLocale } = useI18n()
+await setLocale('en')
 </script>
 
 <template>

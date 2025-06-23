@@ -55,6 +55,8 @@ export default defineNuxtConfig({
 
   i18n: {
     defaultLocale: 'en',
+    // add no_prefix to avoid prefixing the locale in the URL like /de/...
+    strategy: "no_prefix",
     locales: [
       {
         code: 'en',
