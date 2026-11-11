@@ -48,47 +48,65 @@ const breadcrumbs = computed<BreadcrumbItem[] | null>(() => {
   return items
 })
 
-// force locale to be set to 'en' for the app
-const { setLocale } = useI18n()
-await setLocale('en')
+const { appVersion, parserVersion } = useRuntimeConfig().public
+
+const route = useRoute()
+
+// Match the guide's app-wide grid instead of centering the breadcrumb over the narrow article.
+const breadcrumbWidth = computed(() => route.path === '/'
+  ? 'wide:max-w-app frame:max-w-app-wide'
+  : 'frame:max-w-app-wide')
 </script>
 
 <template>
-  <UApp>
-    <div class="flex w-dvw h-dvh">
-      <Sidebar
-        class="h-full w-64 hidden md:flex flex-shrink-0"
-      />
-      <USeparator
-        orientation="vertical"
-        class="h-full hidden md:block"
-        color="primary"
-      />
-      <div class="flex flex-col grow h-full overflow-hidden px-2 py-1 gap-2 min-w-0 md:px-4 md:py-2">
-        <Header class="w-full my-2" />
-        <div
-          v-if="breadcrumbs"
-        >
-          <UBreadcrumb
-            v-if="breadcrumbs"
-            :items="breadcrumbs"
-          />
-          <span
-            class="text-muted text-sm font-mono"
-          >
-            {{ widget?.description ?? category!.description }}
-          </span>
+  <UApp :scroll-body="false">
+    <div class="flex flex-col w-full min-h-dvh">
+      <header class="sticky top-0 z-30 shrink-0 border-b border-default bg-default">
+        <div class="frame flex items-center h-16">
+          <Header />
         </div>
-        <UCard
-          class="flex flex-col overflow-y-auto grow max-w-full"
-          variant="soft"
-          :ui="{
-            body: 'p-2 px-2 sm:p-4 sm:px-6 grow',
-          }"
-        >
+      </header>
+
+      <main class="flex flex-col grow min-w-0">
+        <div class="frame flex flex-col grow min-w-0 pt-8 pb-6 gap-2 md:pt-12 md:pb-8">
+          <div
+            v-if="breadcrumbs && !widget"
+            class="mx-auto w-full shrink-0"
+            :class="breadcrumbWidth"
+          >
+            <UBreadcrumb
+              v-if="breadcrumbs"
+              :items="breadcrumbs"
+            />
+            <span
+              class="text-muted text-sm"
+            >
+              {{ widget?.description ?? category!.description }}
+            </span>
+          </div>
+
           <NuxtPage />
-        </UCard>
-      </div>
+        </div>
+      </main>
+
+      <footer class="shrink-0 border-t border-default">
+        <div class="frame flex flex-wrap items-center justify-center gap-x-2 py-2">
+          <span class="text-xs text-dimmed">
+            {{ appVersion }} · parsers {{ parserVersion }}
+          </span>
+          <UButton
+            variant="link"
+            color="neutral"
+            size="sm"
+            to="https://www.wika.com/en-en/legal_notice.WIKA"
+            target="_blank"
+            rel="noopener"
+            external
+            trailing-icon="mdi:launch"
+            label="Imprint"
+          />
+        </div>
+      </footer>
     </div>
   </UApp>
 </template>

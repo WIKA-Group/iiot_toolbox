@@ -1,91 +1,182 @@
 <script setup lang="ts">
-type Decoder = (input: { bytes: string, fPort: number }) => { data: object, warnings?: string[] } | { errors: string[] }
+import type { DecodeHexUplinkFailureOutput, DecodeHexUplinkInput } from '@w2a-iiot/parsers'
+import { refDebounced } from '@vueuse/core'
 
 type OutputSuccess = { data: object, warnings?: string[] }
-type OutputFailure = { errors: string[] }
-type OutputWarnings = string[]
-type OutputErrors = string[]
-type Output = OutputSuccess | OutputFailure
+type Output = OutputSuccess | DecodeHexUplinkFailureOutput
 
-type Props = {
-  decodeHexUplink: Decoder
-}
+const props = defineProps<{
+  decodeHexUplink: (input: DecodeHexUplinkInput) => Output
 
-const props = defineProps<Props>()
+  slug: string
+  settingsError?: string
+}>()
 
-const hexString = useRouteQuery('hexString', '')
+const { t } = useI18n()
 
-const decodeError = ref<OutputErrors | undefined>(undefined)
-const decodeWarning = ref<OutputWarnings | undefined>(undefined)
-const decodedResult = ref<Output | undefined>(undefined)
-const decodedData = computed<object | unknown[] | undefined>(() => {
-  if (!decodedResult.value) return undefined
-  if ('data' in decodedResult.value) {
-    return decodedResult.value.data
-  }
-  return undefined
+const hexString = useRouteQuery<string>('hexString', '')
+
+const hexInput = ref<string>(hexString.value)
+const debouncedHex = refDebounced(hexInput, 300)
+
+watch(debouncedHex, (value) => {
+  if (value !== hexString.value) hexString.value = value
 })
+
+watch(hexString, (value) => {
+  if (value !== hexInput.value) hexInput.value = value
+})
+
+const result = shallowRef<Output | undefined>(undefined)
+
+const decodedData = computed<object | undefined>(() =>
+  result.value && 'data' in result.value ? result.value.data : undefined)
+const errors = computed<string[] | undefined>(() =>
+  result.value && 'errors' in result.value ? result.value.errors as string[] : undefined)
+const warnings = computed<string[] | undefined>(() =>
+  result.value && 'warnings' in result.value ? result.value.warnings as string[] : undefined)
+const isEmpty = computed(() => hexInput.value.trim() === '')
+const inputError = ref<string | undefined>(undefined)
+const settingsError = computed(() => props.settingsError)
+
+const resultHint = computed(() => settingsError.value
+  ? t('decoder.fixSettings', { reason: settingsError.value })
+  : undefined)
+
+function normaliseHex(value: string): string {
+  return value.replace(/\s+/g, '').replace(/^0x/i, '')
+}
 
 function decodeHexString() {
-  if (!hexString.value) {
-    decodedResult.value = undefined
-    decodeError.value = undefined
+  inputError.value = undefined
+  if (isEmpty.value) {
+    result.value = undefined
     return
   }
-  decodeError.value = undefined
-  // Use parser's decodeHexUplink for hex string
-  // roundingDecimals is now handled outside, so do not set it here
-  const result = props.decodeHexUplink({ bytes: hexString.value, fPort: 1 })
-  decodedResult.value = result
-  if ('errors' in result) {
-    decodeError.value = result.errors as OutputErrors
-  }
-  else {
-    decodeError.value = undefined
+
+  if (settingsError.value) {
+    result.value = undefined
+    return
   }
 
-  if ('warnings' in result) {
-    decodeWarning.value = result.warnings as OutputWarnings
+  const bytes = normaliseHex(hexInput.value)
+  if (!/^[\dA-F]+$/i.test(bytes)) {
+    inputError.value = t('decoder.invalidHexCharacters')
   }
-  else {
-    decodeWarning.value = undefined
+  else if (bytes.length % 2 !== 0) {
+    inputError.value = t('decoder.invalidHexLength')
+  }
+
+  if (inputError.value) {
+    result.value = { errors: [inputError.value] }
+    return
+  }
+
+  try {
+    result.value = props.decodeHexUplink({ bytes })
+  }
+  catch {
+    result.value = { errors: [t('decoder.unexpectedError')] }
   }
 }
-watch(hexString, () => decodeHexString(), {
-  immediate: true,
-})
 
-defineExpose({
-  decodeHexString,
-})
+watch([hexInput, settingsError], () => decodeHexString(), { immediate: true })
+
+const examples = computed(() => EXAMPLE_UPLINKS[props.slug] ?? [])
+const exampleOptions = computed(() => examples.value.map(example => ({
+  ...example,
+  label: example.description,
+  search: `${example.description} ${example.hex}`,
+})))
+
+function useExample(example: { hex: string } | undefined) {
+  if (!example) return
+  hexInput.value = example.hex
+}
+
+defineExpose({ decodeHexString })
 </script>
 
 <template>
-  <TabLayout>
-    <div class="flex flex-col w-full h-full gap-4">
-      <div class="flex flex-col gap-2 grow">
-        <UFormField label="Hexstring">
+  <SplitPane>
+    <template #input>
+      <div class="flex flex-col gap-4">
+        <div class="flex min-w-0 flex-col">
+          <div class="flex min-h-9 items-center">
+            <label
+              for="hex-input"
+              class="text-lg font-semibold text-highlighted"
+            >{{ t('decoder.hexLabel') }}</label>
+          </div>
           <UTextarea
-            v-model="hexString"
-            class="max-w-96 w-full font-mono"
-            :maxrows="3"
-
+            id="hex-input"
+            v-model="hexInput"
+            :aria-describedby="inputError ? 'result-errors' : undefined"
+            :aria-invalid="inputError ? 'true' : undefined"
+            :rows="3"
             autoresize
-            placeholder="Paste your hex string here"
+            :maxrows="8"
+            :placeholder="t('decoder.hexPlaceholder')"
+            :ui="{
+              base: 'font-mono text-sm leading-relaxed p-3 rounded-sm focus-visible:ring-2 focus-visible:ring-primary',
+            }"
           />
-        </UFormField>
+        </div>
+
+        <div
+          v-if="examples.length"
+          class="flex flex-col gap-1.5"
+        >
+          <label
+            for="example-payload"
+            class="text-sm font-medium text-highlighted"
+          >{{ t('decoder.examplesLabel') }}</label>
+          <USelectMenu
+            id="example-payload"
+            class="w-full"
+            :model-value="undefined"
+            :items="exampleOptions"
+            :filter-fields="['label', 'search']"
+            :placeholder="t('decoder.examplePlaceholder')"
+            :search-input="{ placeholder: t('decoder.exampleSearch'), icon: 'mdi:magnify' }"
+            :ui="{
+              content: 'w-[var(--reka-popper-anchor-width)] max-h-[min(26rem,var(--reka-popper-available-height))] shadow-elevation-2!',
+              item: 'items-start py-2.5',
+            }"
+            @update:model-value="useExample"
+          >
+            <template #item-label="{ item }">
+              <span class="flex min-w-0 flex-col gap-0.5">
+                <span class="whitespace-normal text-sm text-highlighted">{{ item.description }}</span>
+                <span class="truncate font-mono text-xs text-dimmed">{{ item.hex }}</span>
+              </span>
+            </template>
+          </USelectMenu>
+        </div>
       </div>
-    </div>
-    <template
-      v-if="decodedResult"
-      #aside
-    >
-      <DisplayResult
+    </template>
+
+    <template #result>
+      <ResultPanel
         :data="decodedData"
-        :errors="decodeError"
-        :warnings="decodeWarning"
-        label="Decoded JSON"
+        :errors="errors"
+        :warnings="warnings"
+        :empty="isEmpty"
+        :hint="resultHint"
+        :slug="slug"
       />
     </template>
-  </TabLayout>
+
+    <template #settings>
+      <div class="border-t border-default pt-6">
+        <EncoderSection
+          :level="3"
+          boxed
+          :title="t('decoder.settingsLabel')"
+        >
+          <slot name="settings" />
+        </EncoderSection>
+      </div>
+    </template>
+  </SplitPane>
 </template>

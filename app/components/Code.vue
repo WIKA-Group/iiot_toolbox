@@ -1,9 +1,12 @@
 <script setup lang="ts">
 type Props = {
   code: string
+  copyable?: boolean
 }
 
-defineProps<Props>()
+withDefaults(defineProps<Props>(), {
+  copyable: true,
+})
 
 const toast = useToast()
 
@@ -33,16 +36,22 @@ function copyToClipboard(text: string) {
 
 <template>
   <div class="relative w-full overflow-x-auto">
-    <pre class="bg-elevated rounded p-2 text-xs text-default overflow-x-auto max-w-full">
+    <pre class="max-w-full overflow-x-auto rounded bg-elevated p-2 pe-10 text-xs text-default">
 {{ code }}
 </pre>
-    <UButton
-      size="xs"
-      color="primary"
-      variant="soft"
-      class="absolute top-2 right-2"
-      icon="mdi:content-copy"
-      @click="copyToClipboard(code)"
-    />
+    <UTooltip
+      v-if="copyable"
+      text="Copy code"
+    >
+      <UButton
+        size="xs"
+        color="neutral"
+        variant="ghost"
+        class="absolute top-1.5 right-1.5"
+        icon="mdi:content-copy"
+        aria-label="Copy code"
+        @click="copyToClipboard(code)"
+      />
+    </UTooltip>
   </div>
 </template>

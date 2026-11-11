@@ -3,41 +3,136 @@
 @plugin "@tailwindcss/typography";
 @config "./tailwind.config.js";
 
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/inter-latin-400-normal.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/inter-latin-ext-400-normal.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+    U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/inter-latin-500-normal.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/inter-latin-ext-500-normal.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+    U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/inter-latin-600-normal.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/inter-latin-ext-600-normal.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+    U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@theme {
+  --font-sans:
+    "Inter", "Helvetica Neue", "Helvetica", "Arial", ui-sans-serif, system-ui,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
+  --font-mono:
+    ui-monospace, "Menlo", "Monaco", "Consolas", "Liberation Mono",
+    "Courier New", monospace;
+
+  --breakpoint-wide: 60rem;
+  --breakpoint-frame: 90rem;
+
+  --container-doc: 47rem;
+  --container-doc-wide: 56rem;
+  --container-app: 62rem;
+
+  --container-app-wide: 86rem;
+
+  --spacing-bleed-doc: 120px;
+  --spacing-bleed-doc-wide: 160px;
+  --container-frame: 90rem;
+
+  --spacing-logo: 30px;
+
+  --spacing-header-device: 34px;
+}
+
+@theme inline {
+  --shadow-elevation-1: var(--wika-elevation-1);
+  --shadow-elevation-2: var(--wika-elevation-2);
+  --shadow-elevation-3: var(--wika-elevation-3);
+  --shadow-elevation-header: var(--wika-elevation-header);
+
+  --color-overlay: var(--wika-overlay);
+  --color-fresh-blue-light: var(--wika-fresh-blue-light);
+  --color-fresh-blue-dark: var(--wika-fresh-blue-dark);
+  --color-brand-dark: var(--wika-brand-dark);
+}
+
 :root {
+  --ui-radius: 0.5rem;
 
+  --ui-color-white: #ffffff;
 
-  --ui-color-primary-50: #e0eafb; 
+  --wika-brand-dark: #002565;
+
+  --ui-color-primary-50: #e0eafb;
   --ui-color-primary-100: #c5d8f7;
   --ui-color-primary-200: #8bb1ee;
   --ui-color-primary-300: #518ae6;
   --ui-color-primary-400: #1f65d6;
-  --ui-color-primary-500: #16489a; /** Default WIKA color: https://www.tints.dev/WIKA/16489A **/ 
+  --ui-color-primary-500: #16489a;
   --ui-color-primary-600: #123b7d;
-  --ui-color-primary-700: #0d2c5e;
+
+  --ui-color-primary-700: #002565;
   --ui-color-primary-800: #091d3e;
   --ui-color-primary-900: #040f1f;
   --ui-color-primary-950: #02060d;
-
-
-
-
-
-  --ui-radius: 0rem;
-
-  --ui-color-white: #ffffff;
-
-  --ui-color-neutral-50: #f0f0f0;
-  --ui-color-neutral-100: #e3e3e3;
-  --ui-color-neutral-200: #c7c7c7;
-  --ui-color-neutral-300: #ababab;
-  --ui-color-neutral-400: #8f8f8f;
-  --ui-color-neutral-500: #707070;
-  --ui-color-neutral-600: #545454;
-  --ui-color-neutral-700: #383838;
-  --ui-color-neutral-800: #1c1c1c;
-  --ui-color-neutral-900: #000000;
-  --ui-color-neutral-950: #000000;
-
 
   --ui-color-secondary-50: #fff5e5;
   --ui-color-secondary-100: #ffebcc;
@@ -50,32 +145,212 @@
   --ui-color-secondary-800: #663d00;
   --ui-color-secondary-900: #331f00;
   --ui-color-secondary-950: #190f00;
+
+  --wika-fresh-blue-light: #f2fdff;
+  --wika-fresh-blue-dark: #00cfff;
+
+  --ui-color-neutral-50: #f7f7f7;
+  --ui-color-neutral-100: #e9e9e9;
+  --ui-color-neutral-200: #c6c6c6;
+  --ui-color-neutral-300: #9b9b9b;
+  --ui-color-neutral-400: #838383;
+  --ui-color-neutral-500: #6a6a6a;
+  --ui-color-neutral-600: #464646;
+  --ui-color-neutral-700: #2f2f2f;
+  --ui-color-neutral-800: #1a1a1a;
+  --ui-color-neutral-900: #000000;
+  --ui-color-neutral-950: #000000;
+
+  --ui-color-success-50: #f2fff7;
+  --ui-color-success-100: #d6f5e1;
+  --ui-color-success-200: #a8e8c0;
+  --ui-color-success-300: #6fd79a;
+  --ui-color-success-400: #33bc6c;
+  --ui-color-success-500: #149c43;
+  --ui-color-success-600: #118039;
+  --ui-color-success-700: #0e6c30;
+  --ui-color-success-800: #0b5926;
+  --ui-color-success-900: #08421c;
+  --ui-color-success-950: #052b12;
+
+  --ui-color-warning-50: #fff9e6;
+  --ui-color-warning-100: #fff0bf;
+  --ui-color-warning-200: #ffe480;
+  --ui-color-warning-300: #ffd940;
+  --ui-color-warning-400: #ffd11a;
+  --ui-color-warning-500: #ffcc00;
+  --ui-color-warning-600: #cca300;
+  --ui-color-warning-700: #a67f00;
+  --ui-color-warning-800: #805400;
+  --ui-color-warning-900: #593b00;
+  --ui-color-warning-950: #332200;
+
+  --ui-color-error-50: #fff2f2;
+  --ui-color-error-100: #fbd9d9;
+  --ui-color-error-200: #f0aeae;
+  --ui-color-error-300: #e68383;
+  --ui-color-error-400: #dc5858;
+  --ui-color-error-500: #d13838;
+  --ui-color-error-600: #a82c2c;
+  --ui-color-error-700: #8a2323;
+  --ui-color-error-800: #661b1b;
+  --ui-color-error-900: #451212;
+  --ui-color-error-950: #2a0b0b;
+
+  --ui-bg: #ffffff;
+  --ui-bg-muted: #f7f7f7;
+  --ui-bg-elevated: #f7f7f7;
+  --ui-bg-accented: #e9e9e9;
+  --ui-bg-inverted: #000000;
+
+  --ui-border: #c6c6c6;
+  --ui-border-muted: #e9e9e9;
+  --ui-border-accented: #8a8a8a;
+  --ui-border-inverted: #000000;
+
+  --ui-text: #000000;
+  --ui-text-highlighted: #000000;
+  --ui-text-toned: #464646;
+  --ui-text-muted: #464646;
+  --ui-text-dimmed: #6a6a6a;
+  --ui-text-inverted: #ffffff;
+
+  --wika-elevation-1: 0 2px 8px 0 rgba(70, 70, 70, 0.08);
+  --wika-elevation-2: 0 6px 8px 2px rgba(70, 70, 70, 0.12);
+  --wika-elevation-3: 0 4px 16px 0 rgba(70, 70, 70, 0.24);
+  --wika-elevation-header: 0 2px 8px 0 rgba(198, 198, 198, 1);
+
+  --wika-overlay: rgba(0, 0, 0, 1);
+
+  --wika-prose-kbd-shadow-rgb: 247 247 247;
 }
 
-.dark {
+html {
+  scrollbar-gutter: stable;
 
-  --ui-color-primary-50: #e6eff9;
-  --ui-color-primary-100: #cde0f3;
-  --ui-color-primary-200: #98bee7;
-  --ui-color-primary-300: #669fdb;
-  --ui-color-primary-400: #3480cf; /** Default light WIKA color: https://www.tints.dev/WIKA/3480CF **/
-  --ui-color-primary-500: #2969ad;
-  --ui-color-primary-600: #21558c;
-  --ui-color-primary-700: #183e67;
-  --ui-color-primary-800: #112a46;
-  --ui-color-primary-900: #081421;
-  --ui-color-primary-950: #040a11;
+  scroll-padding-top: 4rem;
+}
 
+/* No native spinners: they collide with the clear button, are tiny touch targets and change values on scroll. Arrow keys still step. */
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
 
-  --ui-color-secondary-50: #fff3e0;
-  --ui-color-secondary-100: #ffe4bd;
-  --ui-color-secondary-200: #ffcc80;
-  --ui-color-secondary-300: #ffb13d;
-  --ui-color-secondary-400: #fe9900; /** (400 for dark mode) Default WIKA orange: https://www.tints.dev/WIKA/FE9900 **/
-  --ui-color-secondary-500: #d68100;
-  --ui-color-secondary-600: #a86500;
-  --ui-color-secondary-700: #804d00;
-  --ui-color-secondary-800: #573400;
-  --ui-color-secondary-900: #291800;
-  --ui-color-secondary-950: #140c00;
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Device page: near-white canvas; the Encode output area is a touch darker than the page. */
+body.tool-canvas {
+  --wika-canvas: #fcfcfd;
+  --wika-output: #f4f4f5;
+
+  background-color: var(--wika-canvas);
+}
+
+.frame {
+  width: 100%;
+  max-width: var(--container-frame);
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+@media (min-width: 48rem) {
+  .frame {
+    padding-inline: 2rem;
+  }
+}
+
+/* Docs pages: calmer, more modern prose. */
+.prose-wika h1 {
+  font-size: clamp(1.875rem, 1.4rem + 1.6vw, 2.5rem);
+  line-height: 1.15;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.75rem;
+}
+
+.prose-wika h1 + p {
+  margin-top: 0;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: var(--ui-text-muted);
+}
+
+.prose-wika h2 {
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  border-top: 1px solid var(--ui-border-muted);
+  padding-top: 1.5rem;
+  font-size: 1.5rem;
+  line-height: 1.3;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.prose-wika h3 {
+  margin-top: 2rem;
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+/* The h2 border already separates sections, so the markdown rule before it is dropped. */
+.prose-wika hr:has(+ h2) {
+  display: none;
+}
+
+.prose-wika :is(h1, h2, h3, h4) a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.prose-wika :is(p, li) {
+  line-height: 1.7;
+}
+
+.prose-wika strong {
+  color: var(--ui-text-highlighted);
+  font-weight: 600;
+}
+
+.prose-wika :is(p, li) a {
+  color: var(--ui-primary);
+  font-weight: 500;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.prose-wika :is(p, li) a:hover {
+  text-decoration-thickness: 2px;
+}
+
+.prose-wika :not(pre) > code {
+  border: 1px solid var(--ui-border-muted);
+  border-radius: 0.25rem;
+  background: var(--ui-bg-elevated);
+  padding: 0.1em 0.35em;
+  font-size: 0.875em;
+  font-weight: 500;
+}
+
+.prose-wika :not(pre) > code::before,
+.prose-wika :not(pre) > code::after {
+  content: none;
+}
+
+/* A paragraph that is one emphasised sentence is a note. */
+.prose-wika p:has(> em:only-child) {
+  border-inline-start: 2px solid color-mix(in oklab, var(--ui-primary) 40%, transparent);
+  border-radius: 0.25rem;
+  background: var(--ui-bg-elevated);
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
+  color: var(--ui-text-muted);
+}
+
+.prose-wika p:has(> em:only-child) > em {
+  font-style: normal;
 }

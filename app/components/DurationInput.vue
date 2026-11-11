@@ -6,8 +6,6 @@ type Props = {
   max?: number
 }
 
-// TODO: remove the inital setting to fit the min as this may result in unexpected behavior (e.g. empty and user wants to set to 1h but it sets to 1m as it is min)
-
 const props = defineProps<Props>()
 
 const doesModelHaveValue = computed(() => typeof model.value === 'number' && !isNaN(model.value))

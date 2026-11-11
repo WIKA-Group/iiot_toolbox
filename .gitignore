@@ -25,3 +25,6 @@ logs
 
 # Sync directory
 github_sync
+
+docs/
+.agents

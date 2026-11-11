@@ -17,7 +17,8 @@ module.exports = {
             '--tw-prose-quote-borders': 'var(--ui-border-accented)',
             '--tw-prose-captions': 'var(--ui-text-muted)',
             '--tw-prose-kbd': 'var(--ui-text-highlighted)',
-            '--tw-prose-kbd-shadows': 'var(--ui-bg-elevated)',
+
+            '--tw-prose-kbd-shadows': 'var(--wika-prose-kbd-shadow-rgb)',
             '--tw-prose-code': 'var(--ui-text-highlighted)',
             '--tw-prose-pre-code': 'var(--ui-bg-inverted)',
             '--tw-prose-pre-bg': 'var(--ui-bg-accented)',

@@ -13,10 +13,10 @@ defineProps<Props>()
     >
       {{ title }}
     </span>
+
     <USeparator
       v-show="title"
       class="w-full mb-1"
-      color="primary"
     />
     <slot />
   </div>

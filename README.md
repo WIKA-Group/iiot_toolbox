@@ -1,13 +1,11 @@
-# Wika IIoT Toolbox
+# WIKA IIoT Toolbox
 
-This is the open source repository for the Wika IIoT Toolbox.
+This is the open source repository for the WIKA IIoT Toolbox.
 
-The Toolbox Website provides a collection of tools for working with Wika IIoT devices. It includes:
+The Toolbox website provides tools for working with WIKA IIoT devices. It includes:
 
-- JavaScript parsers with interfaces to decode uplinks and encode downlinks (under development)
-- Battery calculation tools for devices (planned)
-
-**Note:** This project is under heavy development.
+- Decoding of uplinks and encoding of downlinks for TULIP2 and TULIP3 devices, based on the [WIKA JavaScript parsers](https://github.com/WIKA-Group/javascript_parsers)
+- Example uplinks and downloadable raw parsers per device
 
 ## Development
 
@@ -41,4 +39,4 @@ Contributions are welcome! Please open issues or pull requests.
 
 ## License
 
-[MIT](LICENSE)
+[MIT](LICENSE). The WIKA name, logos and product images are not covered by this license.

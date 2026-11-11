@@ -1,178 +1,134 @@
 # Device Parsers Guide
 
-This guide explains how to use the device parser UI to configure, encode, and decode payloads for your device, no coding required.
+This guide explains how to use the device parser UI to decode uplinks, encode downlinks, and download a ready-to-use parser for your device, no coding required.
 
----
+## Overview
 
-## Supported Parsers
+Every device page has the same layout:
 
-- [**NETRIS2**](/parsers/netris2) (channels fixed to 4 to 20 mA, cannot change min, max, or unit)
+- **Header:** Device name, measurand, supported protocols, and the "Download parser" button.
+- **Decode tab:** Turns a received uplink payload into readable values. It is open by default and also contains the parser settings.
+- **Encode tab:** Builds a downlink frame from a form. Select the tab to open it. It is only shown for devices that support downlinks, for example not for A2G.
 
-*Note: Support for additional device parsers is coming soon.*
-
----
-
-## Features
-
-- **Tabbed Interface:**  
-  At the top of the page, you will find tabs for "Encoding" and "Decoding". Click a tab to switch between configuring downlinks and decoding uplinks.
-  <!-- Image: Screenshot of the tab navigation at the top, with "Encoding" and "Decoding" tabs visible and highlighted. -->
-
-- **Link Sharing:**  
-  All your configuration data is stored in the page URL. You can bookmark or share the link to save or send your current settings and form state to others. This makes collaboration and support much easier.
-  <!-- Image: Illustration showing a user copying the URL and sharing it, with a tooltip "All settings are saved in the link!" -->
-
----
-
-## Parser Configuration
-
-Before you start encoding or decoding, you may need to configure the parser to match your device's measurement ranges and units.  
-Depending on your device and where it is used, the available ranges, units, and channel count may differ.  
-You can set these options in the parser configuration section at the top of the page.
-
-*Note: For NETRIS2, the measurement ranges (min, max, unit) are fixed to 4 to 20 mA and cannot be changed.*
-
----
-
-## Settings
-
-- **Encoder Settings:**  
-  At the top of the encoding form, you can set general device parameters such as the Configuration ID, which is used to match configuration commands and responses, and the LoRaWAN Spreading Factor, which affects range and data rate.
-  <!-- Image: Screenshot of the Encoder Settings section, with fields for Configuration ID and Spreading Factor, and tooltips visible. -->
-
----
-
-## Encoding
-
-- **Configuration Form:**  
-  The main area of the "Encoding" tab is a form split into logical sections:
-  - **Quick Actions:** Buttons for factory reset and battery indicator reset.
-    <!-- Image: Screenshot of the Quick Actions section with "Factory Reset" and "Reset Battery Indicator" buttons. -->
-  - **Encoder Settings:** General device settings as described above.
-  - **Main Configuration:** Set measurement rates and publication factors for both normal and alarm conditions. The UI will show you the resulting transmission interval.
-    <!-- Image: Screenshot of the Main Configuration section, with a highlighted info box showing the calculated transmission interval. -->
-  - **Channel Tabs:**  
-    The UI provides a section or tab for each available channel. The number of channels shown depends on the device you are configuring. Some devices may have two channels, while others may have more.  
-    The available options and fields for each channel may also vary depending on the device.
-    For each channel, you can:
-      - Enable or disable the channel.
-      - Set thresholds for alarms, including low or high thresholds, with or without delay.
-      - Configure dead band, slope alarms (rising or falling), measurement offset, and start-up time.
-      - All fields have tooltips and hints to guide you, including valid ranges and units.
-  
-    <!-- Image: Screenshot of a generic channel tab open, showing all configuration fields, tooltips, and a disabled min/max/unit field for NETRIS2. -->
-    <!-- Image: Tooltip popup with an explanation and a small diagram for a threshold alarm. -->
-  - **Field Validation:** The UI checks your input and provides immediate feedback if a value is out of range or a required field is missing.
-    <!-- Image: Screenshot showing a validation error message below a field, e.g., "Value must be between 4 and 20 mA". -->
-  - **Tooltips and Visuals:** Many fields include tooltips with explanations and images to help you understand what each setting does.
-    <!-- Image: Tooltip with a diagram for "Dead Band" or "Slope Alarm". -->
-
-- **Encode Downlink:**  
-  After filling out the form, click the "Encode Downlink" button. The encoded frame or frames will appear in a results panel, ready to copy or download.
-  <!-- Image: Screenshot of the results panel showing the encoded downlink frame in hex format, with "Copy" and "Download" buttons. -->
-
-- **What you can do:**  
-  - Configure all device settings visually, with immediate feedback and help.
-  - Save and share your configuration via URL.
-  - Instantly generate valid downlink frames for your device.
-  - Use quick actions for common device resets.
-
-- **Encoding Configuration May Vary:**  
-  The available encoding configuration options and fields may differ depending on the device you are working with. Some devices offer more channels or different alarm and measurement settings. The encode page will automatically adapt to show only the relevant options for your selected device.
-
----
+All inputs, such as the selected tab, protocol, payload, settings, and form values, are stored in the page URL. Bookmark the link or send it to colleagues or support to share your current state.
 
 ## Decoding
 
-- **Decode Uplink:**  
-  Switch to the "Decoding" tab to access the uplink decoder.
-  - Paste your received payload, either in hex or base64, into the input field.
-    <!-- Image: Screenshot of the Decoding tab with a textarea for pasting the hex string, and a sample payload entered. -->
-  - The UI will automatically decode and display the interpreted data in a readable format.
-    <!-- Image: Screenshot of the decoded JSON result, with field names, values, and units clearly shown. -->
-  - Decoded values are shown with units and field names for clarity.
-  - Any errors or warnings are displayed below the result.
-    <!-- Image: Screenshot showing a warning or error message below the decoded result, e.g., "Warning: Value out of expected range". -->
+Decoding is shown as soon as you open a device. To decode an uplink:
 
-- **What you can do:**  
-  - Instantly decode uplink payloads from your device.
-  - See all decoded values, alarms, and status fields with clear labels and units.
-  - Share the decoded result with support or colleagues.
+1. Paste the received payload as a hexadecimal string into the "Payload" field. Spaces, line breaks, and a leading `0x` are accepted. Alternatively, choose an example from the "Example" list, if the device has examples.
+2. Read the result. It updates automatically while you type.
+3. Check the status next to the result title. It shows "Decoded", "Error", or "Awaiting payload".
 
----
+The result panel offers the following:
+
+- **Table and raw JSON:** Switch between a table of values and the raw JSON.
+- **Units:** The table shows units where the device defines them. Otherwise it shows the values exactly as the parser reports them.
+- **Copy:** Copy the result as JSON.
+- **Warnings:** Parser warnings are listed below the result.
+
+The UI reports malformed input immediately, for example non-hexadecimal characters or an incomplete byte. On small screens, a "Show result" button jumps to the result panel.
+
+### Parser Settings
+
+The "Parser settings" section below the payload field adjusts the parser to your device. The settings change the decoded values and are included in the downloaded parser.
+
+| Setting | Description |
+| --- | --- |
+| Decimal places | Number of decimals in decoded values. Whole number of 0 or more. Default: 4. |
+| Measuring ranges | Start and end value per channel. Shown only for devices with adjustable channels. |
+
+For measuring ranges, enter both limits, with the start lower than the end, or clear both fields to use the device default. "Reset" restores the default. A2G and NETRIS2 have no adjustable channels, so only decimal places are shown.
+
+Invalid settings are marked on the field. While a setting is invalid, nothing is decoded and the parser download is blocked.
+
+## Encoding
+
+Select the "Encode" tab to create a downlink frame. To encode a downlink:
+
+1. Select the protocol (TULIP2 or TULIP3), if the device supports more than one.
+2. Select an action. The list separates actions that generate the frame immediately from actions that need input.
+3. Fill in the parameters of the action. The UI validates your input and reports immediately if a value is out of range or a required field is missing.
+4. Copy the frame from the "Downlink frame" panel.
+
+The frame appears as soon as the inputs are valid and updates whenever you change a value. While inputs are incomplete, the panel tells you what is still missing. Errors are shown in red. "Reset form" clears all inputs of the current action.
+
+### Downlink Frame
+
+The "Downlink frame" panel shows the status ("Encoded", "Error", or "Nothing encoded"), the frame in hex, its size in bytes, and the fPort. Use the copy button to copy the frame. The menu next to it offers other formats:
+
+- Hex with `0x` prefix.
+- Hex without prefix.
+- Base64.
+
+Some downlinks need several frames. The panel then shows every frame with its own copy button and "Copy all". Send the frames in the order shown.
+
+### TULIP2 Actions
+
+| Action | Input |
+| --- | --- |
+| Restore defaults | None. |
+| Reset battery | None. |
+| Drop configuration | Configuration ID, if the device uses it. |
+| Configuration | Main configuration and channel values. See below. |
+| Get configuration | Configuration blocks to read back. |
+
+The available actions depend on the device. The Configuration ID matches configuration commands and responses. It must be a whole number of 1 or more. Increment it for each new configuration you send.
+
+The configuration form has the following sections:
+
+- **Main settings:** Measuring rates and publication factors for normal and alarm conditions. The UI shows the resulting transmission interval. Fill in every field or leave all empty.
+- **Channels:** One section per channel. The number and names of channels depend on the device.
+
+Each channel offers these values, depending on the device:
+
+- Dead band, required as soon as any alarm value is set.
+- Low and high thresholds, with or without delay.
+- Rising and falling slope.
+- Start-up time.
+- Measure offset.
+
+A channel can also be switched on or off instead of configured. Switching sends a different downlink and replaces the entered values. Many fields have tooltips with explanations, valid ranges, and units.
+
+### TULIP3 Actions
+
+| Action | Input |
+| --- | --- |
+| Close session | None. |
+| Restore defaults | None. |
+| Reset battery | None. |
+| Alarm status | Alarm types to request: process, communication module, sensor, and channel alarms. Select at least one. |
+| Read registers | Registers to read. Select at least one. |
+| Write registers | Values for the registers to change. |
+
+Registers are grouped by communication module, sensor, and channel. For "Write registers", enter a value only for registers you want to change. Entries that belong together, such as the entries of a set, must be filled in completely, because unset entries would be switched off. The UI shows the resulting transmission interval for measuring period and transmission rate. Values outside the recommended range show an advisory, but still encode.
+
+"Read registers" and "Write registers" can span several frames. The "Max. frame size" field above the action options limits the size of each frame in bytes, headers included. The default is 51 bytes. Raise it to the payload limit of your network to need fewer frames. The minimum is 11 bytes. The setting applies to the encoded frames only and is not part of the downloaded parser.
 
 ## Download and Usage
 
-- **Download Encoded Frames:**  
-  The results panel in the encoding tab allows you to copy the encoded frames to your clipboard or download them as a file.
-  <!-- Image: Screenshot of the download and copy buttons in the results panel. -->
+The "Download parser" button in the page header saves the parser script together with your current settings, decimal places and measuring ranges. It is blocked while a setting is invalid, so the file always matches what you verified on the page. To use the parser in a network server or gateway:
 
-- **Download the Parser with Your Settings:**  
-  When you download the parser script from the encode page, it automatically includes all your current settings, such as channel configuration, rounding decimals, and other options. This means that after you have verified your configuration and ensured the encoded frames are correct, you can download a parser that is ready to use with your device and settings. No further adjustments are needed after download.
+1. Verify your settings and your decoded or encoded frames on the device page.
+2. Download the parser.
+3. Upload or paste the script into the custom decoder or encoder section of your network server or gateway. Your settings are already included, so no further adjustments are needed.
 
-- **Always Up to Date:**  
-  The downloadable parser is always kept in sync with the latest release of the JavaScript parsers. You can be confident that you are using the most recent and reliable version.
+The downloadable parser comes from the same pinned release of the JavaScript parsers that this site is built against. It behaves exactly like the decoding and encoding you verified here. The pinned version is updated only after a new release has been checked against this site.
 
-- **Bookmarking and Sharing:**  
-  Since all configuration data is stored in the URL, you can bookmark your current configuration or share it with colleagues or support for troubleshooting.
-  <!-- Image: Illustration of sharing a link with a colleague, with a "Configuration loaded!" banner. -->
+### LoRa Alliance Payload Codec API Compliance
 
----
+The downloaded parser is compliant with the [LoRa Alliance Payload Codec API spec](https://resources.lora-alliance.org/technical-specifications/ts013-1-0-0-payload-codec-api). Some network server or gateway providers do not fully adhere to this specification. If your network server requires a specific function signature or export, add a small wrapper at the end of the downloaded file. For example, for a server that expects a `Decode(fPort, bytes)` function:
 
-## LoRa Alliance Payload Codec API Compliance
+```js
+function Decode(fPort, bytes) {
+  return decodeUplink({ bytes, fPort })
+}
+```
 
-The downloaded parser is fully compliant with the [LoRa Alliance Payload Codec API spec](https://resources.lora-alliance.org/technical-specifications/ts013-1-0-0-payload-codec-api). However, some network server or gateway providers may not fully adhere to the LoRa Alliance Payload Codec API specification. In such cases, you might need to add a small code snippet at the end of the downloaded file to adapt it for your specific environment.
+## Further Resources
 
----
+For more advanced features or to integrate the parser into your own application, see:
 
-## Usage in a Network Server or Gateway
-
-Once you have downloaded the parser with your verified settings:
-1. Upload or paste the parser script into your network server or gateway's custom decoder or encoder section.
-2. No further configuration is needed, as your settings are already included.
-3. If your network server requires a specific function signature or export, you may need to add a small code snippet at the end of the file.
-
-*Example workflow:*
-- Configure and verify your settings in the encode page.
-- Download the parser.
-- Upload the parser to your network server.
-- If needed, add a small code snippet for compatibility. See below for examples.
-
----
-
-
-<!--
-
-## Examples for Adapting the Parser to Different Network Servers
-
-  Loriot:
-    Add a wrapper function at the end of the downloaded file:
-      function Decode(fPort, bytes) { return decodeUplink({ bytes, fPort }); }
-  The Things Network (TTN):
-    Export the decodeUplink function as the main decoder.
-  ChirpStack:
-    Use the decodeUplink function directly, or wrap as needed.
-  ...add more as needed.
--->
-
-<!--
-
-## Example Screenshots
-
-  1. Tab navigation at the top, with "Encoding" and "Decoding" tabs.
-  2. Encoder Settings section with tooltips open.
-  3. Generic channel tab with all fields, tooltips, and disabled min/max/unit for NETRIS2.
-  4. Main Configuration section with calculated transmission interval info box.
-  5. Validation error message below a field.
-  6. Tooltip with diagram for "Dead Band".
-  7. Quick Actions section with reset buttons.
-  8. Results panel with encoded frame, copy, and download buttons.
-  9. Decoding tab with textarea and sample payload.
-  10. Decoded JSON result with warnings/errors.
-  11. Illustration of sharing a configuration link.
-  12. Illustration of pasting a frame into a network server UI.
-
----
-
--->
-*If you need more advanced features or want to integrate the parser into your own application, please refer directly to the [parsers repository](https://github.com/WIKA-Group/javascript_parsers) and the [server and web examples](https://github.com/WIKA-Group/javascript_parsers/tree/main/examples). These examples are based on the official [`@w2a-iiot/parsers`](https://www.npmjs.com/package/@w2a-iiot/parsers) npm package.*
+- [Parsers repository](https://github.com/WIKA-Group/javascript_parsers)
+- [Server and web examples](https://github.com/WIKA-Group/javascript_parsers/tree/main/examples)
+- [`@w2a-iiot/parsers` on npm](https://www.npmjs.com/package/@w2a-iiot/parsers), the official package the examples are based on
